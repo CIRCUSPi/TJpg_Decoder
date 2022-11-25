@@ -15,7 +15,7 @@ bool getFile(String url, String filename) {
 
     Serial.print("[HTTP] begin...\n");
 
-#ifdef ARDUINO_ARCH_ESP8266
+#ifdef ESP8266
     std::unique_ptr<BearSSL::WiFiClientSecure>client(new BearSSL::WiFiClientSecure);
     client -> setInsecure();
     HTTPClient http;
@@ -29,7 +29,7 @@ bool getFile(String url, String filename) {
     Serial.print("[HTTP] GET...\n");
     // Start connection and send HTTP header
     int httpCode = http.GET();
-    if (httpCode == 200) {
+    if (httpCode > 0) {
       fs::File f = LittleFS.open(filename, "w+");
       if (!f) {
         Serial.println("file open failed");
